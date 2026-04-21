@@ -30,20 +30,39 @@ extension Date {
     }
     
     static func daysAgo(_ days: Int, hour: Int = 0, minute: Int = 0, second: Int = 0) -> Date {
-            var components = DateComponents()
-            components.day = -days
-            components.hour = hour
-            components.minute = minute
-            components.second = second
-            return Calendar.current.date(byAdding: components, to: Date())!
-        }
+        var components = DateComponents()
+        components.day = -days
+        components.hour = hour
+        components.minute = minute
+        components.second = second
+        return Calendar.current.date(byAdding: components, to: Date())!
+    }
 
-        static func daysFromNow(_ days: Int, hour: Int = 0, minute: Int = 0, second: Int = 0) -> Date {
-            var components = DateComponents()
-            components.day = days
-            components.hour = hour
-            components.minute = minute
-            components.second = second
-            return Calendar.current.date(byAdding: components, to: Date())!
+    static func daysFromNow(_ days: Int, hour: Int = 0, minute: Int = 0, second: Int = 0) -> Date {
+        var components = DateComponents()
+        components.day = days
+        components.hour = hour
+        components.minute = minute
+        components.second = second
+        return Calendar.current.date(byAdding: components, to: Date())!
+    }
+    
+    func timeRemainingString() -> String {
+        let now = Date()
+        let remaining = self.timeIntervalSince(now)
+        
+        guard remaining > 0 else { return "Ended" }
+        
+        let days    = Int(remaining) / 86_400
+        let hours   = (Int(remaining) % 86_400) / 3_600
+        let minutes = (Int(remaining) % 3_600)  / 60
+        
+        if days > 0 {
+            return "\(days)d \(hours)h"
+        } else if hours > 0 {
+            return "\(hours)h"
+        } else {
+            return "\(minutes)m"
         }
+    }
 }

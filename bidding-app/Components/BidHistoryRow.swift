@@ -13,16 +13,16 @@ struct BidHistoryRow: View {
     
     var body: some View {
         HStack {
-            ZStack {
-                Image(systemName: "person")
-                    .resizable()
-                    .scaledToFill()
-                    .frame(width: 20, height: 20)
-                    .foregroundStyle(.white)
-            }
-            .frame(width: 50, height: 50, alignment: .center)
-            .background(.gray)
-            .clipShape(Circle())
+//            ZStack {
+//                Image(systemName: "person")
+//                    .resizable()
+//                    .scaledToFill()
+//                    .frame(width: 20, height: 20)
+//                    .foregroundStyle(.white)
+//            }
+//            .frame(width: 50, height: 50, alignment: .center)
+//            .background(.gray)
+//            .clipShape(Circle())
             
             VStack {
                 Text("\(bid.name)")
@@ -44,4 +44,8 @@ struct BidHistoryRow: View {
         .listRowInsets(EdgeInsets())
         .padding(.vertical)
     }
+}
+
+#Preview {
+    BidHistoryRow(bid: BidItemData.bidItems[0].history[0], increment: 2_000_000)
 }

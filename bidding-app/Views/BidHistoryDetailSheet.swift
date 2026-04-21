@@ -19,65 +19,67 @@ struct BidHistoryDetailSheet: View {
     }
     
     var body: some View {
-        VStack {
+        NavigationStack {
             VStack {
-                Text("Bid Detail")
-                    .bold()
-            }
-            .padding()
-            
-            Divider()
-            
-            VStack {
-                HStack {
-                    Text("Bidder")
-                        .fontWeight(.thin)
-                    Spacer()
-                    Text(bid.name)
-                }
-                .frame(alignment: .leading)
-                
-                HStack {
-                    Text("Price")
-                        .fontWeight(.thin)
-                    Spacer()
-                    Text("Rp \(bid.price.toCurrencyString())")
-                }
-                .frame(alignment: .leading)
-                
-                HStack {
-                    Text("vs Highest Bid")
-                        .fontWeight(.thin)
-                    Spacer()
-                    Text("\(diffFromHighest >= 0 ? "+" : "")Rp \(diffFromHighest.toCurrencyString())")
-                        .foregroundStyle(diffFromHighest >= 0 ? .green : .red)
-                }
-                
-                if let diff = diffFromPrevious {
+                VStack {
                     HStack {
-                        Text("vs Previous Bid")
+                        Text("Bidder")
                             .fontWeight(.thin)
                         Spacer()
-                        Text("\(diff >= 0 ? "+" : "")Rp \(diff.toCurrencyString())")
-                            .foregroundStyle(diff >= 0 ? .green : .red)
+                        Text(bid.name)
                     }
-                }
-                
-                HStack {
-                    Text("Placed at")
-                        .fontWeight(.thin)
-                    Spacer()
-                    Text(bid.createdAt.toFormattedStringWithTime())
+                    .frame(alignment: .leading)
+                    
+                    HStack {
+                        Text("Price")
+                            .fontWeight(.thin)
+                        Spacer()
+                        Text("Rp \(bid.price.toCurrencyString())")
+                    }
+                    .frame(alignment: .leading)
+                    
+                    HStack {
+                        Text("vs Highest Bid")
+                            .fontWeight(.thin)
+                        Spacer()
+                        Text("\(diffFromHighest >= 0 ? "+" : "")Rp \(diffFromHighest.toCurrencyString())")
+                            .foregroundStyle(diffFromHighest >= 0 ? .green : .red)
+                    }
+                    
+                    if let diff = diffFromPrevious {
+                        HStack {
+                            Text("vs Previous Bid")
+                                .fontWeight(.thin)
+                            Spacer()
+                            Text("\(diff >= 0 ? "+" : "")Rp \(diff.toCurrencyString())")
+                                .foregroundStyle(diff >= 0 ? .green : .red)
+                        }
+                    }
+                    
+                    HStack {
+                        Text("Placed at")
+                            .fontWeight(.thin)
+                        Spacer()
+                        Text(bid.createdAt.toFormattedStringWithTime())
+                    }
+                    .frame(alignment: .leading)
                 }
                 .frame(alignment: .leading)
+                
+                Spacer()
             }
             .frame(alignment: .leading)
             .padding()
-            
-            Spacer()
+            .presentationDetents([.medium])
+            .navigationTitle("Bid Detail")
+            .navigationBarTitleDisplayMode(.inline)
         }
-        .frame(alignment: .leading)
-        .padding()
-        .presentationDetents([.medium])
     }
+}
+
+#Preview {
+    BidHistoryDetailSheet(
+        bid: BidItemData.bidItems[0].history[1],
+        highestBid: BidItemData.bidItems[0].history[14].price,
+        previousBid: BidItemData.bidItems[0].history[0].price)
 }

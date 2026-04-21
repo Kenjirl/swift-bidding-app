@@ -9,27 +9,38 @@ import SwiftUI
 import Charts
 
 struct BidItemDetailView: View {
-    @State private var showPlaceBidSheet = false
-    @State private var selectedBid: BidHistoryModel? = nil
-    
     let item: BidItemModel
     
-    var chartData: [(date: Date, count: Int)] {
-        Dictionary(grouping: item.history, by: { Calendar.current.startOfDay(for: $0.createdAt) })
-            .map { (date, bids) in (date: date, count: bids.count) }
-            .sorted { $0.date < $1.date }
-    }
+    @State private var showCreateBidSheet = false
+    @State private var selectedBid: BidHistoryModel? = nil
+    @State private var chartShowed = "Daily Bid Count"
 
     var body: some View {
         ScrollView {
             /// Item Card
             VStack {
                 HStack {
-                    Image(item.imageUrl)
-                        .resizable()
-                        .scaledToFill()
-                        .frame(width: 200, height: 200)
-                        .clipShape(RoundedRectangle(cornerRadius: 12))
+                    ZStack {
+                        Image(item.imageUrl)
+                            .resizable()
+                            .scaledToFill()
+                            .frame(width: 200, height: 200)
+                            .clipShape(RoundedRectangle(cornerRadius: 12))
+                        
+                        HStack(spacing: 4) {
+                            Image(systemName: "clock")
+                            Text(item.bidClosesAt.timeRemainingString())
+                        }
+                        .padding(.vertical, 4)
+                        .padding(.horizontal, 16)
+                        .background(.green)
+                        .cornerRadius(6)
+                        .foregroundStyle(.white)
+                        .font(.caption)
+                        .bold()
+                        .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .bottomTrailing)
+                        .padding(8)
+                    }
                     
                     VStack {
                         Spacer()
@@ -38,7 +49,7 @@ struct BidItemDetailView: View {
                             .fontWeight(.thin)
                             .frame(maxWidth: .infinity, alignment: .leading)
                         
-                        Text("Rp \n\(item.findHighestBid()?.toCompactString() ?? item.bidOpenPrice.toCompactString())")
+                        Text("\(item.findHighestBid()?.toCompactString() ?? item.bidOpenPrice.toCompactString())")
                             .font(.title)
                             .bold()
                             .foregroundStyle(.green)
@@ -47,11 +58,10 @@ struct BidItemDetailView: View {
                     .frame(maxWidth: .infinity, alignment: .leading)
                     Spacer()
                 }
-                .padding(.bottom)
+                .padding(.bottom, 4)
                 
                 Text("\(item.name)")
                     .font(.title2)
-                    .bold()
                 
                 Text("\(item.description)")
                     .font(.caption)
@@ -63,38 +73,29 @@ struct BidItemDetailView: View {
 
             /// Chart
             VStack {
-                Chart(chartData, id: \.date) {
-                    AreaMark(
-                        x: .value("Tanggal", $0.date, unit: .day),
-                        y: .value("Jumlah Bid", $0.count)
-                    )
-                    .foregroundStyle(
-                        LinearGradient(
-                            colors: [.blue.opacity(0.4), .blue.opacity(0.0)],
-                            startPoint: .top,
-                            endPoint: .bottom
-                        )
-                    )
-                    .interpolationMethod(.catmullRom)
-                    
-                    LineMark(
-                        x: .value("Tanggal", $0.date, unit: .day),
-                        y: .value("Jumlah Bid", $0.count)
-                    )
-                    .foregroundStyle(.blue)
-                    .lineStyle(StrokeStyle(lineWidth: 1))
-                    .interpolationMethod(.catmullRom)
-                    
-                    PointMark(
-                        x: .value("Tanggal", $0.date, unit: .day),
-                        y: .value("Jumlah Bid", $0.count)
-                    )
-                    .foregroundStyle(.blue)
-                    .symbolSize(40)
+                HStack {
+                    Menu {
+                        Button("Daily Bid Count") {
+                            chartShowed = "Daily Bid Count"
+                        }
+                        Button("Bid Price") {
+                            chartShowed = "Bid Price"
+                        }
+                    } label: {
+                        HStack(spacing: 4) {
+                            Image(systemName: "chevron.up.chevron.down")
+                            Text(chartShowed)
+                        }
+                        .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .trailing)
+                        .font(.footnote)
+                    }
+                    .foregroundStyle(.primary)
                 }
-                .frame(maxWidth: .infinity, maxHeight: .infinity)
+                .padding(.bottom, 4)
+                
+                if (chartShowed == "Daily Bid Count") { DailyBidCountChart(item: item) }
+                else { BidPriceChart(item: item) }
             }
-            .frame(width: .infinity, height: 200)
             .padding()
 
             /// Bid History
@@ -102,7 +103,11 @@ struct BidItemDetailView: View {
                 HStack {
                     Text("Bid so far").bold()
                     Spacer()
-                    Button ("Place Bid") { showPlaceBidSheet = true }
+                    Button ("Place Bid") { showCreateBidSheet = true }
+                }
+                .sheet(isPresented: $showCreateBidSheet) {
+                    let highestBid = item.findHighestBid() ?? item.bidOpenPrice
+                    CreateBidSheet(highestBid: highestBid)
                 }
                 
                 List {

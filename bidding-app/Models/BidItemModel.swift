@@ -11,7 +11,7 @@ enum BidStatus {
     case open, close
 }
 
-struct BidItemModel: Identifiable {
+struct BidItemModel: Identifiable, Hashable {
     let id = UUID()
     let name: String
     let description: String

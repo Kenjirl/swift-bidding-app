@@ -1,5 +1,5 @@
 //
-//  Date+Format.swift
+//  DateUtil.swift
 //  bidding-app
 //
 //  Created by Benedict Kenjiro Lehot on 20/04/26.

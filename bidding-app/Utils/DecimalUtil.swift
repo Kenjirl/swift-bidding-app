@@ -1,5 +1,5 @@
 //
-//  Decimal+Format.swift
+//  DecimalUtil.swift
 //  bidding-app
 //
 //  Created by Benedict Kenjiro Lehot on 20/04/26.

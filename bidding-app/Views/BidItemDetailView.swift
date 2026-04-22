@@ -14,7 +14,6 @@ struct BidItemDetailView: View {
     @State private var showCreateBidSheet = false
     @State private var selectedBid: BidHistoryModel? = nil
     @State private var chartShowed = "Daily Bid Count"
-    @State private var isHistoryEmpty: Bool = false
     
     func countBidHistory(history: [BidHistoryModel]) -> Bool {
         if (history.count == 0) { return false }
@@ -79,7 +78,7 @@ struct BidItemDetailView: View {
             .padding()
 
             /// Chart
-            if (isHistoryEmpty) {
+            if (countBidHistory(history: item.history)) {
                 VStack {
                     HStack {
                         Menu {
@@ -119,7 +118,7 @@ struct BidItemDetailView: View {
                     CreateBidSheet(highestBid: highestBid)
                 }
                 
-                if (isHistoryEmpty) {
+                if (countBidHistory(history: item.history)) {
                     List {
                         ForEach(item.historyWithIncrement.reversed(), id: \.history.id) { bid in
                             BidHistoryRow(bid: bid.history, increment: bid.increment)
@@ -157,5 +156,5 @@ struct BidItemDetailView: View {
 }
 
 #Preview {
-    BidItemDetailView(item: BidItemData.bidItems[4])
+    BidItemDetailView(item: BidItemData.bidItems[0])
 }

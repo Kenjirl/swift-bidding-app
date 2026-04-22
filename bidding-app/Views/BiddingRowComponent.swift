@@ -21,10 +21,12 @@ struct BiddingRowComponent: View {
             }
             
             HStack {
-                RoundedRectangle(cornerRadius: 8)
-                    .fill(.gray.opacity(0.1))
+                Image(item.imageUrl)
+                    .resizable()
+                    .scaledToFill()
                     .frame(width: 50, height: 50)
-                    .overlay(Text("👟"))
+                    .background(.gray)
+                    .clipShape(RoundedRectangle(cornerRadius: 8))
                 
                 Text(item.name).font(.headline)
                 Spacer()

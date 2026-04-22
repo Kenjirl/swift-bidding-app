@@ -11,7 +11,7 @@ import SwiftUI
 struct bidding_appApp: App {
     var body: some Scene {
         WindowGroup {
-            BidItemDetailView(item: BidItemData.bidItems[0])
+            MainView()
         }
     }
 }

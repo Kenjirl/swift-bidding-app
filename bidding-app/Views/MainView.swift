@@ -14,19 +14,19 @@ struct MainView: View {
             // Tab 1: Your Sneakers List
             BiddingView()
                 .tabItem {
-                    Label("Bidding", systemImage: "gavel.fill")
+                    Label("Home", systemImage: "house")
                 }
             
             // Tab 2: A featured Item or Profile
             MyView() // Example: showing the first item
                 .tabItem {
-                    Label("My Item", systemImage: "star.fill")
+                    Label("My Item", systemImage: "shippingbox.fill")
                 }
             
             // Tab 3: Settings or Profile
             Text("Profile View")
                 .tabItem {
-                    Label("Profile", systemImage: "person.fill")
+                    Label("Bid History", systemImage: "list.bullet")
                 }
         }
         // This ensures the icons and text contrast well if you use a dark theme

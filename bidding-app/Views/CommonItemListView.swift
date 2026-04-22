@@ -2,15 +2,15 @@
 //  CommonBiddingListView.swift
 //  bidding-app
 //
-//  Created by I Gusti Ngurah Bagus Ferry Mahayudha on 21/04/26.
+//  Created by I Gusti Ngurah Bagus Ferry Mahayudha on 22/04/26.
 //
 
 import SwiftUI
 
-struct SortMenu: View {
+struct ItemSortMenu: View {
     // We use @Binding so that when the user clicks a button here,
     // it updates the sortOrder in the parent View (CommonBiddingListView)
-    @Binding var sortOrder: CommonBiddingListView.SortType
+    @Binding var sortOrder: CommonItemListView.SortType
 
     var body: some View {
         Menu {
@@ -39,13 +39,13 @@ struct SortMenu: View {
     }
 }
 
-
-struct CommonBiddingListView: View {
+struct CommonItemListView: View {
     var title: String
     @Binding var store: MockData // Shared reference
     
     @State private var searchText = ""
     @State private var sortOrder: SortType = .alphabetical_asc
+    @State private var isShowingAddSheet = false
     
     enum SortType {
         case alphabetical_asc, alphabetical_desc, price_asc, price_desc
@@ -76,10 +76,17 @@ struct CommonBiddingListView: View {
             .searchable(text: $searchText, prompt: "Search sneakers")
             .toolbar {
                 ToolbarItem(placement: .navigationBarTrailing) {
-                    SortMenu(sortOrder: $sortOrder)
+                    ItemSortMenu(sortOrder: $sortOrder)
                 }
             }
-            
+            .toolbar {
+                ToolbarItem(placement: .navigationBarTrailing) {
+                    Button { isShowingAddSheet = true } label: { Image(systemName: "plus") }
+                }
+            }
+            .sheet(isPresented: $isShowingAddSheet) {
+                AddBidItemSheet(store: store)
+            }
         }
     }
 }

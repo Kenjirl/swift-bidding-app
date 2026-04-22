@@ -20,7 +20,7 @@ struct BidItemModel: Identifiable, Hashable {
     let bidOpenPrice: Decimal
     let bidOpensAt: Date
     let bidClosesAt: Date
-    let history: [BidHistoryModel]
+    var history: [BidHistoryModel]
     
     var bidStatus: BidStatus {
         return Date.now < bidClosesAt ? .open : .close

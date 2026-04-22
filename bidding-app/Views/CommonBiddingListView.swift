@@ -39,36 +39,37 @@ struct SortMenu: View {
     }
 }
 
-
 struct CommonBiddingListView: View {
     var title: String
-    @Binding var store: MockData // Shared reference
-    
+    @Binding var items: [BidItemModel]
+
     @State private var searchText = ""
     @State private var sortOrder: SortType = .alphabetical_asc
-    
+
     enum SortType {
         case alphabetical_asc, alphabetical_desc, price_asc, price_desc
     }
 
     var filteredItems: [BidItemModel] {
-        var items = store.allItems
+        var result = items
         if !searchText.isEmpty {
-            items = items.filter { $0.name.localizedCaseInsensitiveContains(searchText) }
+            result = result.filter { $0.name.localizedCaseInsensitiveContains(searchText) }
         }
         switch sortOrder {
-            case .alphabetical_asc: return items.sorted { $0.name < $1.name }
-            case .alphabetical_desc: return items.sorted { $0.name > $1.name }
-            case .price_asc: return items.sorted { ($0.history.last?.price ?? $0.bidOpenPrice) < ($1.history.last?.price ?? $1.bidOpenPrice) }
-            case .price_desc: return items.sorted { ($0.history.last?.price ?? $0.bidOpenPrice) > ($1.history.last?.price ?? $1.bidOpenPrice) }
+        case .alphabetical_asc:  return result.sorted { $0.name < $1.name }
+        case .alphabetical_desc: return result.sorted { $0.name > $1.name }
+        case .price_asc:  return result.sorted { ($0.findHighestBid() ?? $0.bidOpenPrice) < ($1.findHighestBid() ?? $1.bidOpenPrice) }
+        case .price_desc: return result.sorted { ($0.findHighestBid() ?? $0.bidOpenPrice) > ($1.findHighestBid() ?? $1.bidOpenPrice) }
         }
     }
 
     var body: some View {
         NavigationStack {
             List(filteredItems) { item in
-                NavigationLink(destination: BidItemDetailView(item: item)) {
-                    BiddingRowComponent(item: item)
+                if let index = items.firstIndex(where: { $0.id == item.id }) {
+                    NavigationLink(destination: BidItemDetailView(item: $items[index])) {
+                        BiddingRowComponent(item: item)
+                    }
                 }
             }
             .listStyle(.plain)
@@ -79,7 +80,6 @@ struct CommonBiddingListView: View {
                     SortMenu(sortOrder: $sortOrder)
                 }
             }
-            
         }
     }
 }

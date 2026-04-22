@@ -14,6 +14,12 @@ struct BidItemDetailView: View {
     @State private var showCreateBidSheet = false
     @State private var selectedBid: BidHistoryModel? = nil
     @State private var chartShowed = "Daily Bid Count"
+    @State private var isHistoryEmpty: Bool = false
+    
+    func countBidHistory(history: [BidHistoryModel]) -> Bool {
+        if (history.count == 0) { return false }
+        return true
+    }
 
     var body: some View {
         ScrollView {
@@ -25,6 +31,7 @@ struct BidItemDetailView: View {
                             .resizable()
                             .scaledToFill()
                             .frame(width: 200, height: 200)
+                            .background(.gray)
                             .clipShape(RoundedRectangle(cornerRadius: 12))
                         
                         HStack(spacing: 4) {
@@ -72,31 +79,33 @@ struct BidItemDetailView: View {
             .padding()
 
             /// Chart
-            VStack {
-                HStack {
-                    Menu {
-                        Button("Daily Bid Count") {
-                            chartShowed = "Daily Bid Count"
+            if (isHistoryEmpty) {
+                VStack {
+                    HStack {
+                        Menu {
+                            Button("Daily Bid Count") {
+                                chartShowed = "Daily Bid Count"
+                            }
+                            Button("Bid Price") {
+                                chartShowed = "Bid Price"
+                            }
+                        } label: {
+                            HStack(spacing: 4) {
+                                Image(systemName: "chevron.up.chevron.down")
+                                Text(chartShowed)
+                            }
+                            .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .trailing)
+                            .font(.footnote)
                         }
-                        Button("Bid Price") {
-                            chartShowed = "Bid Price"
-                        }
-                    } label: {
-                        HStack(spacing: 4) {
-                            Image(systemName: "chevron.up.chevron.down")
-                            Text(chartShowed)
-                        }
-                        .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .trailing)
-                        .font(.footnote)
+                        .foregroundStyle(.primary)
                     }
-                    .foregroundStyle(.primary)
+                    .padding(.bottom, 4)
+                    
+                    if (chartShowed == "Daily Bid Count") { DailyBidCountChart(item: item) }
+                    else { BidPriceChart(item: item) }
                 }
-                .padding(.bottom, 4)
-                
-                if (chartShowed == "Daily Bid Count") { DailyBidCountChart(item: item) }
-                else { BidPriceChart(item: item) }
+                .padding()
             }
-            .padding()
 
             /// Bid History
             VStack {
@@ -110,26 +119,33 @@ struct BidItemDetailView: View {
                     CreateBidSheet(highestBid: highestBid)
                 }
                 
-                List {
-                    ForEach(item.historyWithIncrement.reversed(), id: \.history.id) { bid in
-                        BidHistoryRow(bid: bid.history, increment: bid.increment)
-                            .onTapGesture {
-                                selectedBid = bid.history
-                            }
+                if (isHistoryEmpty) {
+                    List {
+                        ForEach(item.historyWithIncrement.reversed(), id: \.history.id) { bid in
+                            BidHistoryRow(bid: bid.history, increment: bid.increment)
+                                .onTapGesture {
+                                    selectedBid = bid.history
+                                }
+                        }
                     }
-                }
-                .frame(width: .infinity, height: 500, alignment: .top)
-                .listStyle(.plain)
-                .sheet(item: $selectedBid) { bid in
-                    let index = item.history.firstIndex(where: { $0.id == bid.id })
-                    let previousBid = index.flatMap { $0 > 0 ? item.history[$0 - 1].price : nil }
-                    let highestBid = item.findHighestBid() ?? item.bidOpenPrice
-
-                    BidHistoryDetailSheet(
-                        bid: bid,
-                        highestBid: highestBid,
-                        previousBid: previousBid
-                    )
+                    .frame(width: .infinity, height: 500, alignment: .top)
+                    .listStyle(.plain)
+                    .sheet(item: $selectedBid) { bid in
+                        let index = item.history.firstIndex(where: { $0.id == bid.id })
+                        let previousBid = index.flatMap { $0 > 0 ? item.history[$0 - 1].price : nil }
+                        let highestBid = item.findHighestBid() ?? item.bidOpenPrice
+                        
+                        BidHistoryDetailSheet(
+                            bid: bid,
+                            highestBid: highestBid,
+                            previousBid: previousBid
+                        )
+                    }
+                } else {
+                    Text("No Bid History Yet")
+                        .padding(.top)
+                        .font(.default)
+                        .fontWeight(.light)
                 }
             }
             .frame(maxWidth: .infinity, alignment: .center)
@@ -141,5 +157,5 @@ struct BidItemDetailView: View {
 }
 
 #Preview {
-    BidItemDetailView(item: BidItemData.bidItems[0])
+    BidItemDetailView(item: BidItemData.bidItems[4])
 }

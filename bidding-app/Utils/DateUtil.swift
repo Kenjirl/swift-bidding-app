@@ -58,7 +58,7 @@ extension Date {
         let minutes = (Int(remaining) % 3_600)  / 60
         
         if days > 0 {
-            return "\(days)d \(hours)h"
+            return "\(days)d"
         } else if hours > 0 {
             return "\(hours)h"
         } else {

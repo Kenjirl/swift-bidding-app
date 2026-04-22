@@ -16,6 +16,7 @@ struct BidItemModel: Identifiable, Hashable {
     let name: String
     let description: String
     let imageUrl: String
+    let bidder: String
     let bidOpenPrice: Decimal
     let bidOpensAt: Date
     let bidClosesAt: Date

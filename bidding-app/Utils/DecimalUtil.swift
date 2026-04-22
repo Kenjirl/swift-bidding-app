@@ -18,14 +18,14 @@ extension Decimal {
         }
         
         switch double {
-        case 1_000_000_000...:
-            return "\(format(double / 1_000_000_000))B"
-        case 1_000_000...:
-            return "\(format(double / 1_000_000))M"
-        case 1_000...:
-            return "\(format(double / 1_000))K"
-        default:
-            return String(format: "%.0f", double)
+            case 1_000_000_000...:
+                return "\(format(double / 1_000_000_000))B"
+            case 1_000_000...:
+                return "\(format(double / 1_000_000))M"
+            case 1_000...:
+                return "\(format(double / 1_000))K"
+            default:
+                return String(format: "%.0f", double)
         }
     }
     

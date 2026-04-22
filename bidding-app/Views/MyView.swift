@@ -9,16 +9,16 @@ import SwiftUI
 import Charts
 
 struct MyView: View {
-    @State private var store = MockData()
-    
+    @Binding var items: [BidItemModel]
+
     var body: some View {
-        CommonItemListView(title: "My Items", store: $store)
+        CommonItemListView(title: "My Items", items: $items)
     }
 }
 
 struct AddBidItemSheet: View {
     @Environment(\.dismiss) var dismiss
-    var store: MockData // Reference to the shared store
+    @Binding var items: [BidItemModel]
     
     @State private var name = ""
     @State private var price = ""
@@ -53,8 +53,7 @@ struct AddBidItemSheet: View {
                         history: []
                     )
                     
-                    // This updates the shared @Observable store
-                    store.allItems.append(newItem)
+                    items.append(newItem)
                     dismiss()
                 }
                 .disabled(name.isEmpty || price.isEmpty)
@@ -68,6 +67,6 @@ struct AddBidItemSheet: View {
     }
 }
 
-#Preview {
-    MyView()
-}
+//#Preview {
+//    MyView()
+//}

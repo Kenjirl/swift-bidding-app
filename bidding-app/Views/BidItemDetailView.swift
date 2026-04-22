@@ -9,11 +9,13 @@ import SwiftUI
 import Charts
 
 struct BidItemDetailView: View {
-    let item: BidItemModel
+    @Binding var item: BidItemModel
     
+    @State private var showDetailItemSheet = false
     @State private var showCreateBidSheet = false
     @State private var selectedBid: BidHistoryModel? = nil
     @State private var chartShowed = "Daily Bid Count"
+    @State private var createBidSuccessAlert = false
     
     func countBidHistory(history: [BidHistoryModel]) -> Bool {
         if (history.count == 0) { return false }
@@ -73,6 +75,13 @@ struct BidItemDetailView: View {
                     .font(.caption)
                     .fontWeight(.light)
                     .multilineTextAlignment(.center)
+                
+                Button("More Info") { showDetailItemSheet = true }
+                    .font(.caption)
+                    .fontWeight(.light)
+                    .sheet(isPresented: $showDetailItemSheet) {
+                        MoreInfoSheet(item: item)
+                    }
             }
             .frame(maxWidth: .infinity, alignment: .center)
             .padding()
@@ -115,7 +124,16 @@ struct BidItemDetailView: View {
                 }
                 .sheet(isPresented: $showCreateBidSheet) {
                     let highestBid = item.findHighestBid() ?? item.bidOpenPrice
-                    CreateBidSheet(highestBid: highestBid)
+                    CreateBidSheet(
+                        history: $item.history,
+                        highestBid: highestBid,
+                        onSuccess: { createBidSuccessAlert = true }
+                    )
+                }
+                .alert("Bid Placed!", isPresented: $createBidSuccessAlert) {
+                    Button("OK", role: .cancel) { }
+                } message: {
+                    Text("Your bid has been successfully placed.")
                 }
                 
                 if (countBidHistory(history: item.history)) {
@@ -156,5 +174,6 @@ struct BidItemDetailView: View {
 }
 
 #Preview {
-    BidItemDetailView(item: BidItemData.bidItems[0])
+    @Previewable @State var item = BidItemData.bidItems[0]
+    BidItemDetailView(item: $item)
 }

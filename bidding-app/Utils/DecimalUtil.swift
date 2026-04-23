@@ -30,12 +30,12 @@ extension Decimal {
     }
     
     func toCurrencyString() -> String {
-            let formatter = NumberFormatter()
-            formatter.numberStyle = .decimal
-            formatter.groupingSeparator = ","
-            formatter.decimalSeparator = "."
-            formatter.minimumFractionDigits = 0
-            formatter.maximumFractionDigits = 0
-            return formatter.string(from: NSDecimalNumber(decimal: self)) ?? "\(self)"
-        }
+        let formatter = NumberFormatter()
+        formatter.numberStyle = .decimal
+        formatter.groupingSeparator = ","
+        formatter.decimalSeparator = "."
+        formatter.minimumFractionDigits = 0
+        formatter.maximumFractionDigits = 0
+        return formatter.string(from: NSDecimalNumber(decimal: self)) ?? "\(self)"
+    }
 }

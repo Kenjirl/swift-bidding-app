@@ -34,7 +34,7 @@ struct BidItemDetailView: View {
             VStack {
                 HStack {
                     ZStack {
-                        Image(item.imageUrl)
+                        Image(uiImage: item.imageUrl ?? UIImage(named: "default")!)
                             .resizable()
                             .scaledToFill()
                             .frame(width: 200, height: 200)
@@ -45,7 +45,7 @@ struct BidItemDetailView: View {
                             }
                             .fullScreenCover(isPresented: $showFullScreenImage) {
                                 NavigationStack {
-                                    Image(item.imageUrl)
+                                    Image(uiImage: item.imageUrl ?? UIImage(named: "default")!)
                                         .resizable()
                                         .scaledToFit()
                                         .toolbar {

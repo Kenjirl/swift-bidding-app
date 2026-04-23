@@ -41,6 +41,17 @@ struct BidPriceChart: View {
             .interpolationMethod(.catmullRom)
         }
         .frame(height: 200)
+        .chartYAxis {
+            AxisMarks { value in
+                AxisValueLabel {
+                    if let price = value.as(Decimal.self) {
+                        Text(price.toCompactString())
+                    }
+                }
+                AxisGridLine()
+                AxisTick()
+            }
+        }
     }
 }
 

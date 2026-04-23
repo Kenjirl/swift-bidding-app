@@ -9,7 +9,9 @@ import SwiftUI
 import Charts
 
 struct BidItemDetailView: View {
+    
     @Binding var item: BidItemModel
+    var title: String
     
     @State private var showDetailItemSheet = false
     @State private var showCreateBidSheet = false
@@ -120,7 +122,11 @@ struct BidItemDetailView: View {
                 HStack {
                     Text("Bid so far").bold()
                     Spacer()
-                    Button ("Place Bid") { showCreateBidSheet = true }
+                    
+                    if title != "My Items" {
+                        Button ("Place Bid") { showCreateBidSheet = true }
+                    }
+                    
                 }
                 .sheet(isPresented: $showCreateBidSheet) {
                     let highestBid = item.findHighestBid() ?? item.bidOpenPrice
@@ -175,5 +181,6 @@ struct BidItemDetailView: View {
 
 #Preview {
     @Previewable @State var item = BidItemData.bidItems[0]
-    BidItemDetailView(item: $item)
+    @Previewable @State var title = "title"
+    BidItemDetailView(item: $item, title: title)
 }

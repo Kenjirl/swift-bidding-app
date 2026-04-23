@@ -67,7 +67,7 @@ struct CommonBiddingListView: View {
         NavigationStack {
             List(filteredItems) { item in
                 if let index = items.firstIndex(where: { $0.id == item.id }) {
-                    NavigationLink(destination: BidItemDetailView(item: $items[index])) {
+                    NavigationLink(destination: BidItemDetailView(item: $items[index], title: title)) {
                         BiddingRowComponent(item: item)
                     }
                 }

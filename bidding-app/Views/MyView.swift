@@ -6,7 +6,7 @@
 //
 
 import SwiftUI
-import Charts
+import PhotosUI
 
 struct MyView: View {
     @Binding var items: [BidItemModel]
@@ -20,10 +20,32 @@ struct AddBidItemSheet: View {
     @Environment(\.dismiss) var dismiss
     @Binding var items: [BidItemModel]
     
+    var user = BidItemData.user
+    
     @State private var name = ""
     @State private var price = ""
     @State private var description = ""
     @State private var closeDate = Date()
+    
+    @State private var selectedPhoto: PhotosPickerItem?
+    @State private var selectedImage: UIImage?
+    
+    func submitItem() {
+        let newPrice = Decimal(string: price) ?? 0
+        let newItem = BidItemModel(
+            name: name,
+            description: description,
+            imageUrl: selectedImage,
+            bidder: user,
+            bidOpenPrice: newPrice,
+            bidOpensAt: Date(),
+            bidClosesAt: closeDate,
+            history: []
+        )
+        
+        items.append(newItem)
+        dismiss()
+    }
     
     var body: some View {
         NavigationStack {
@@ -37,36 +59,57 @@ struct AddBidItemSheet: View {
                 }
                 
                 Section("Timeline") {
-                    DatePicker("Bid Closes At", selection: $closeDate, displayedComponents: .date)
+                    DatePicker("Bid Closes At", selection: $closeDate)
                 }
                 
-                Button("Add Item") {
-                    let newPrice = Decimal(string: price) ?? 0
-                    let newItem = BidItemModel(
-                        name: name,
-                        description: description,
-                        imageUrl: "shoes",
-                        bidder: "Kenji",
-                        bidOpenPrice: newPrice,
-                        bidOpensAt: Date(),
-                        bidClosesAt: closeDate,
-                        history: []
-                    )
-                    
-                    items.append(newItem)
-                    dismiss()
-                }
-                .disabled(name.isEmpty || price.isEmpty)
-                
-            }
+                Section("Add Image") {
+                    PhotosPicker(selection: $selectedPhoto, matching: .images) {
+                        if let image = selectedImage {
+                            Image(uiImage: image)
+                                .resizable()
+                                .scaledToFill()
+                                .frame(width: 200, height: 200)
+                                .cornerRadius(8)
+                        }
+                        Label("Pilih Gambar", systemImage: "photo")
+                            .padding(.vertical)
+                    }
+                    .frame(maxWidth: .infinity, alignment: .center)
+                    .onChange(of: selectedPhoto) {
+                        Task {
+                            if let data = try? await selectedPhoto?.loadTransferable(type: Data.self),
+                               let uiImage = UIImage(data: data) {
+                                selectedImage = uiImage
+                            }
+                        }
+                    }
+                }            }
             .navigationTitle("New Auction")
             .toolbar {
-                Button("Cancel") { dismiss() }
+                ToolbarItem(placement: .cancellationAction) {
+                    Button {
+                        dismiss()
+                    } label: {
+                        Image(systemName: "xmark")
+                    }
+                    .tint(.primary)
+                }
+                
+                ToolbarItem(placement: .confirmationAction) {
+                    Button {
+                        submitItem()
+                    } label: {
+                        Image(systemName: "checkmark")
+                    }
+                    .disabled(name.isEmpty || price.isEmpty)
+                    .tint(.blue)
+                }
             }
         }
     }
 }
 
-//#Preview {
-//    MyView()
-//}
+#Preview {
+    @Previewable @State var items = BidItemData.bidItems
+    AddBidItemSheet(items: $items)
+}

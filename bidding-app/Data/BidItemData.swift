@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import UIKit
 
 struct BidItemData {
     static let user: String = "Kenji"
@@ -14,7 +15,7 @@ struct BidItemData {
         BidItemModel(
             name: "Nike Air Jordan 1 Retro High OG",
             description: "Iconic sneaker in the classic Chicago colorway. Deadstock condition, never worn. Comes with original box and all accessories.",
-            imageUrl: "nike_air_jordan_1",
+            imageUrl: UIImage(named: "nike_air_jordan_1"),
             bidder: "Kenji",
             bidOpenPrice: 2_500_000,
             bidOpensAt: .daysAgo(7),
@@ -40,7 +41,7 @@ struct BidItemData {
         BidItemModel(
             name: "Adidas Yeezy Boost 350 V2 Zebra",
             description: "Yeezy 350 V2 in Zebra colorway, size US 8.5. 100% authentic, legit checked. Original box still in pristine condition.",
-            imageUrl: "adidas_yeezy_350_zebra",
+            imageUrl: UIImage(named: "adidas_yeezy_350_zebra"),
             bidder: "Bagus",
             bidOpenPrice: 3_000_000,
             bidOpensAt: .daysAgo(7),
@@ -66,7 +67,7 @@ struct BidItemData {
         BidItemModel(
             name: "New Balance 550 White Green",
             description: "Exclusive New Balance 550 collaboration. Size US 7.5, condition 9/10, worn only twice. Perfect for daily wear or as a collection piece.",
-            imageUrl: "new_balance_550_white_green",
+            imageUrl: UIImage(named: "new_balance_550_white_green"),
             bidder: "Fajar",
             bidOpenPrice: 1_200_000,
             bidOpensAt: .daysAgo(7),
@@ -92,7 +93,7 @@ struct BidItemData {
         BidItemModel(
             name: "Nike SB Dunk Low Travis Scott",
             description: "Rare Nike SB Dunk Low x Travis Scott collaboration. Size US 10, deadstock. Certificate of authenticity included. Market price keeps rising.",
-            imageUrl: "nike_sb_dunk_travis_scott",
+            imageUrl: UIImage(named: "nike_sb_dunk_travis_scott"),
             bidder: "Kenji",
             bidOpenPrice: 8_000_000,
             bidOpensAt: .daysAgo(7),
@@ -118,7 +119,7 @@ struct BidItemData {
         BidItemModel(
             name: "Adidas Samba OG 'Cloud White'",
             description: "Adidas Samba OG in the iconic Cloud White & Core Black colorway. Size US 8.5, deadstock, never worn. Complete with original box and purchase receipt. One of the most sought-after silhouettes this year.",
-            imageUrl: "adidas_samba_og_white",
+            imageUrl: UIImage(named: "adidas_samba_og_white"),
             bidder: "Rafi",
             bidOpenPrice: 1_800_000,
             bidOpensAt: Date(),

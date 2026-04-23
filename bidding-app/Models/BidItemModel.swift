@@ -6,16 +6,17 @@
 //
 
 import Foundation
+import UIKit
 
 enum BidStatus {
     case open, close
 }
 
-struct BidItemModel: Identifiable, Hashable {
+struct BidItemModel: Identifiable {
     let id = UUID()
     let name: String
     let description: String
-    let imageUrl: String
+    let imageUrl: UIImage?
     let bidder: String
     let bidOpenPrice: Decimal
     let bidOpensAt: Date

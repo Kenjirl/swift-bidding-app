@@ -21,7 +21,7 @@ struct BiddingRowComponent: View {
             }
             
             HStack {
-                Image(item.imageUrl)
+                Image(uiImage: item.imageUrl ?? UIImage(named: "default")!)
                     .resizable()
                     .scaledToFill()
                     .frame(width: 50, height: 50)

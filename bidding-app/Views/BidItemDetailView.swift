@@ -11,11 +11,15 @@ import Charts
 struct BidItemDetailView: View {
     @Binding var item: BidItemModel
     
+    let user = BidItemData.user
+    
     @State private var showDetailItemSheet = false
     @State private var showCreateBidSheet = false
+    @State private var showFullScreenImage = false
     @State private var selectedBid: BidHistoryModel? = nil
     @State private var chartShowed = "Daily Bid Count"
     @State private var createBidSuccessAlert = false
+    @State private var openCreateBidSheetError = false
     
     func countBidHistory(history: [BidHistoryModel]) -> Bool {
         if (history.count == 0) { return false }
@@ -34,6 +38,27 @@ struct BidItemDetailView: View {
                             .frame(width: 200, height: 200)
                             .background(.gray)
                             .clipShape(RoundedRectangle(cornerRadius: 12))
+                            .onTapGesture {
+                                showFullScreenImage = true
+                            }
+                            .fullScreenCover(isPresented: $showFullScreenImage) {
+                                NavigationStack {
+                                    Image(item.imageUrl)
+                                        .resizable()
+                                        .scaledToFit()
+                                        .toolbar {
+                                            ToolbarItem(placement: .cancellationAction) {
+                                                Button {
+                                                    showFullScreenImage = false
+                                                } label: {
+                                                    Image(systemName: "xmark")
+                                                }
+                                                .tint(.primary)
+                                            }
+                                        }
+                                }
+                                .onTapGesture { showFullScreenImage = false }
+                            }
                         
                         HStack(spacing: 4) {
                             Image(systemName: "clock")
@@ -120,7 +145,17 @@ struct BidItemDetailView: View {
                 HStack {
                     Text("Bid so far").bold()
                     Spacer()
-                    Button ("Place Bid") { showCreateBidSheet = true }
+                    Button ("Place Bid") {
+                        guard item.bidder != user else {
+                            return openCreateBidSheetError = true
+                        }
+                        return showCreateBidSheet = true
+                    }
+                    .alert("Cannot Place Bid", isPresented: $openCreateBidSheetError) {
+                        Button("OK", role: .cancel) { }
+                    } message: {
+                        Text("You cannot place bid on your own item.")
+                    }
                 }
                 .sheet(isPresented: $showCreateBidSheet) {
                     let highestBid = item.findHighestBid() ?? item.bidOpenPrice

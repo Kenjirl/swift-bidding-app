@@ -13,7 +13,7 @@ struct BidItemData {
     static let bidItems: [BidItemModel] = [
         BidItemModel(
             name: "Nike Air Jordan 1 Retro High OG",
-            description: "Sneaker ikonik dengan colorway Chicago klasik. Kondisi deadstock, belum pernah dipakai. Dilengkapi box original dan semua aksesori.",
+            description: "Iconic sneaker in the classic Chicago colorway. Deadstock condition, never worn. Comes with original box and all accessories.",
             imageUrl: "nike_air_jordan_1",
             bidder: "Kenji",
             bidOpenPrice: 2_500_000,
@@ -39,7 +39,7 @@ struct BidItemData {
         ),
         BidItemModel(
             name: "Adidas Yeezy Boost 350 V2 Zebra",
-            description: "Yeezy 350 V2 colorway Zebra, ukuran 42. Authentic 100%, sudah di-legit check. Box original masih mulus.",
+            description: "Yeezy 350 V2 in Zebra colorway, size US 8.5. 100% authentic, legit checked. Original box still in pristine condition.",
             imageUrl: "adidas_yeezy_350_zebra",
             bidder: "Bagus",
             bidOpenPrice: 3_000_000,
@@ -65,7 +65,7 @@ struct BidItemData {
         ),
         BidItemModel(
             name: "New Balance 550 White Green",
-            description: "New Balance 550 kolaborasi eksklusif. Ukuran 41, kondisi 9/10, dipakai hanya 2x. Cocok untuk daily wear maupun koleksi.",
+            description: "Exclusive New Balance 550 collaboration. Size US 7.5, condition 9/10, worn only twice. Perfect for daily wear or as a collection piece.",
             imageUrl: "new_balance_550_white_green",
             bidder: "Fajar",
             bidOpenPrice: 1_200_000,
@@ -91,7 +91,7 @@ struct BidItemData {
         ),
         BidItemModel(
             name: "Nike SB Dunk Low Travis Scott",
-            description: "Kolaborasi langka Nike SB Dunk Low x Travis Scott. Ukuran 43, deadstock. Sertifikat keaslian tersedia. Harga pasar terus naik.",
+            description: "Rare Nike SB Dunk Low x Travis Scott collaboration. Size US 10, deadstock. Certificate of authenticity included. Market price keeps rising.",
             imageUrl: "nike_sb_dunk_travis_scott",
             bidder: "Kenji",
             bidOpenPrice: 8_000_000,
@@ -116,13 +116,13 @@ struct BidItemData {
             ]
         ),
         BidItemModel(
-            name: "2 Nike SB Dunk Low Travis Scott",
-            description: "Kolaborasi langka Nike SB Dunk Low x Travis Scott. Ukuran 43, deadstock. Sertifikat keaslian tersedia. Harga pasar terus naik.",
-            imageUrl: "nike_sb_dunk_travis_scott",
-            bidder: "Kenji",
-            bidOpenPrice: 8_000_000,
-            bidOpensAt: .daysAgo(7),
-            bidClosesAt: .daysFromNow(3),
+            name: "Adidas Samba OG 'Cloud White'",
+            description: "Adidas Samba OG in the iconic Cloud White & Core Black colorway. Size US 8.5, deadstock, never worn. Complete with original box and purchase receipt. One of the most sought-after silhouettes this year.",
+            imageUrl: "adidas_samba_og_white",
+            bidder: "Rafi",
+            bidOpenPrice: 1_800_000,
+            bidOpensAt: Date(),
+            bidClosesAt: .daysFromNow(7),
             history: []
         )
     ]

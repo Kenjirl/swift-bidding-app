@@ -103,7 +103,7 @@ struct CreateBidSheet: View {
                 
                 Spacer()
             }
-            .frame(alignment: .leading)
+            .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .leading)
             .padding()
             .presentationDetents([.medium])
             .navigationTitle("Place Your Bid")
@@ -115,6 +115,7 @@ struct CreateBidSheet: View {
                     } label: {
                         Image(systemName: "xmark")
                     }
+                    .tint(.primary)
                 }
                 
                 ToolbarItem(placement: .confirmationAction) {

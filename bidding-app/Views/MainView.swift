@@ -10,6 +10,7 @@ import Charts
 
 struct MainView: View {
     @State private var items = BidItemData.bidItems
+    @State private var history = BidHistoryData.userBidHistory
 
     var body: some View {
         TabView {
@@ -19,7 +20,7 @@ struct MainView: View {
             MyView(items: $items)
                 .tabItem { Label("My Item", systemImage: "shippingbox.fill") }
             
-            Text("Profile View")
+            MyBidHistory(history: $history)
                 .tabItem { Label("Bid History", systemImage: "list.bullet") }
         }
         .tint(.blue)

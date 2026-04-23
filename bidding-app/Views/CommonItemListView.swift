@@ -42,6 +42,7 @@ struct ItemSortMenu: View {
 struct CommonItemListView: View {
     var title: String
     @Binding var items: [BidItemModel]
+    @State var username: String = BidItemData.user
 
     @State private var searchText = ""
     @State private var sortOrder: SortType = .alphabetical_asc
@@ -68,8 +69,16 @@ struct CommonItemListView: View {
         NavigationStack {
             List(filteredItems) { item in
                 if let index = items.firstIndex(where: { $0.id == item.id }) {
-                    NavigationLink(destination: BidItemDetailView(item: $items[index])) {
-                        BiddingRowComponent(item: item)
+                    if title == "My Items" {
+                        if item.bidder == username {
+                            NavigationLink(destination: BidItemDetailView(item: $items[index], title: title)) {
+                                BiddingRowComponent(item: item)
+                            }
+                        }
+                    } else {
+                        NavigationLink(destination: BidItemDetailView(item: $items[index], title: title)) {
+                            BiddingRowComponent(item: item)
+                        }
                     }
                 }
             }

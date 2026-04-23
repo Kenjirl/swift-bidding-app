@@ -9,7 +9,9 @@ import SwiftUI
 import Charts
 
 struct BidItemDetailView: View {
+    
     @Binding var item: BidItemModel
+    var title: String
     
     let user = BidItemData.user
     
@@ -210,5 +212,6 @@ struct BidItemDetailView: View {
 
 #Preview {
     @Previewable @State var item = BidItemData.bidItems[0]
-    BidItemDetailView(item: $item)
+    @Previewable @State var title = "title"
+    BidItemDetailView(item: $item, title: title)
 }

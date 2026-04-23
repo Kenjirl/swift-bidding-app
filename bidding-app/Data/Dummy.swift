@@ -12,5 +12,5 @@ import Combine
 @Observable
 class MockData {
     var allItems: [BidItemModel] = BidItemData.bidItems
+    var allHistory: [BidItemModel] = BidHistoryData.userBidHistory
 }
-

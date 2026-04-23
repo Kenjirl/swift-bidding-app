@@ -85,6 +85,7 @@ struct AddBidItemSheet: View {
                     }
                 }            }
             .navigationTitle("New Auction")
+            .navigationBarTitleDisplayMode(.inline)
             .toolbar {
                 ToolbarItem(placement: .cancellationAction) {
                     Button {

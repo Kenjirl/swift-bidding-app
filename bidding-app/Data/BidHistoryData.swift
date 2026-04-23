@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import UIKit
 
 struct BidHistoryData {
     
@@ -13,7 +14,7 @@ struct BidHistoryData {
         BidItemModel(
             name: "Adidas Yeezy Boost 350 V2 Zebra",
             description: "Yeezy 350 V2 colorway Zebra, ukuran 42. Authentic 100%, sudah di-legit check. Box original masih mulus.",
-            imageUrl: "adidas_yeezy_350_zebra",
+            imageUrl: UIImage(named: "adidas_yeezy_350_zebra"),
             bidder: "Bagus",
             bidOpenPrice: 3_000_000,
             bidOpensAt: .daysAgo(7),
@@ -26,7 +27,7 @@ struct BidHistoryData {
         BidItemModel(
             name: "Adidas Yeezy Boost 350 V2 Zebra",
             description: "Yeezy 350 V2 colorway Zebra, ukuran 42. Authentic 100%, sudah di-legit check. Box original masih mulus.",
-            imageUrl: "adidas_yeezy_350_zebra",
+            imageUrl: UIImage(named: "adidas_yeezy_350_zebra"),
             bidder: "Bagus",
             bidOpenPrice: 3_000_000,
             bidOpensAt: .daysAgo(7),
@@ -39,7 +40,7 @@ struct BidHistoryData {
         BidItemModel(
             name: "Adidas Yeezy Boost 350 V2 Zebra",
             description: "Yeezy 350 V2 colorway Zebra, ukuran 42. Authentic 100%, sudah di-legit check. Box original masih mulus.",
-            imageUrl: "adidas_yeezy_350_zebra",
+            imageUrl: UIImage(named: "adidas_yeezy_350_zebra"),
             bidder: "Bagus",
             bidOpenPrice: 3_000_000,
             bidOpensAt: .daysAgo(7),
@@ -52,7 +53,7 @@ struct BidHistoryData {
         BidItemModel(
             name: "New Balance 550 White Green",
             description: "New Balance 550 kolaborasi eksklusif. Ukuran 41, kondisi 9/10, dipakai hanya 2x. Cocok untuk daily wear maupun koleksi.",
-            imageUrl: "new_balance_550_white_green",
+            imageUrl: UIImage(named: "new_balance_550_white_green"),
             bidder: "Fajar",
             bidOpenPrice: 1_200_000,
             bidOpensAt: .daysAgo(7),
@@ -65,7 +66,7 @@ struct BidHistoryData {
         BidItemModel(
             name: "New Balance 550 White Green",
             description: "New Balance 550 kolaborasi eksklusif. Ukuran 41, kondisi 9/10, dipakai hanya 2x. Cocok untuk daily wear maupun koleksi.",
-            imageUrl: "new_balance_550_white_green",
+            imageUrl: UIImage(named: "new_balance_550_white_green"),
             bidder: "Fajar",
             bidOpenPrice: 1_200_000,
             bidOpensAt: .daysAgo(7),
@@ -78,7 +79,7 @@ struct BidHistoryData {
         BidItemModel(
             name: "New Balance 550 White Green",
             description: "New Balance 550 kolaborasi eksklusif. Ukuran 41, kondisi 9/10, dipakai hanya 2x. Cocok untuk daily wear maupun koleksi.",
-            imageUrl: "new_balance_550_white_green",
+            imageUrl: UIImage(named: "new_balance_550_white_green"),
             bidder: "Fajar",
             bidOpenPrice: 1_200_000,
             bidOpensAt: .daysAgo(7),

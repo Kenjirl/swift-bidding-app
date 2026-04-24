@@ -13,6 +13,26 @@ struct BidItemData {
     
     static let bidItems: [BidItemModel] = [
         BidItemModel(
+            name: "New Balance 2002R Protection Pack Smoke",
+            description: "New Balance 2002R Protection Pack colorway Smoke. Kondisi deadstock, belum pernah dipakai. Ukuran 42, lengkap dengan box original dan extra lace.",
+            imageUrl: UIImage(named: "nb_2002r_smoke"),
+            bidder: "Bagus",
+            bidOpenPrice: 1_800_000,
+            bidOpensAt: .daysAgo(12),
+            bidClosesAt: .daysAgo(5),
+            history: [
+                BidHistoryModel(name: "Dewi",   price: 1_950_000,  createdAt: .daysAgo(12, hour: 9,  minute: 20)),
+                BidHistoryModel(name: "Sari",   price: 2_100_000,  createdAt: .daysAgo(11, hour: 13, minute: 45)),
+                BidHistoryModel(name: "Ricko",  price: 2_300_000,  createdAt: .daysAgo(11, hour: 20, minute: 10)),
+                BidHistoryModel(name: "Kenji",  price: 2_450_000,  createdAt: .daysAgo(10, hour: 8,  minute: 35)),
+                BidHistoryModel(name: "Fajar",  price: 2_600_000,  createdAt: .daysAgo(9,  hour: 14, minute: 55)),
+                BidHistoryModel(name: "Sari",   price: 2_800_000,  createdAt: .daysAgo(8,  hour: 10, minute: 30)),
+                BidHistoryModel(name: "Ricko",  price: 2_950_000,  createdAt: .daysAgo(7,  hour: 17, minute: 18)),
+                BidHistoryModel(name: "Fajar",  price: 3_100_000,  createdAt: .daysAgo(6,  hour: 9,  minute: 42)),
+                BidHistoryModel(name: "Sari",   price: 3_300_000,  createdAt: .daysAgo(5,  hour: 8,  minute: 5)),
+            ]
+        ),
+        BidItemModel(
             name: "Nike Air Jordan 1 Retro High OG",
             description: "Iconic sneaker in the classic Chicago colorway. Deadstock condition, never worn. Comes with original box and all accessories.",
             imageUrl: UIImage(named: "nike_air_jordan_1"),

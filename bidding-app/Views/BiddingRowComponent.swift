@@ -28,39 +28,54 @@ struct BiddingRowComponent: View {
                     .background(.gray)
                     .clipShape(RoundedRectangle(cornerRadius: 8))
                 
-                Text(item.name).font(.headline)
+                Text(item.name)
+                    .font(.headline)
+                    .lineLimit(2)
                 Spacer()
                 
                 // Mini Trend Chart
-                Chart(chartData) { data in
-                    AreaMark(x: .value("Day", data.date, unit: .day), y: .value("Count", data.count))
-                        .foregroundStyle(.blue.opacity(0.1))
-                        .interpolationMethod(.catmullRom)
-                    LineMark(x: .value("Day", data.date, unit: .day), y: .value("Count", data.count))
-                        .foregroundStyle(.blue)
-                        .interpolationMethod(.catmullRom)
+                if (item.hasHistory) {
+                    Chart(chartData) { data in
+                        AreaMark(x: .value("Day", data.date, unit: .day), y: .value("Count", data.count))
+                            .foregroundStyle(.blue.opacity(0.1))
+                            .interpolationMethod(.catmullRom)
+                        LineMark(x: .value("Day", data.date, unit: .day), y: .value("Count", data.count))
+                            .foregroundStyle(.blue)
+                            .interpolationMethod(.catmullRom)
+                    }
+                    .frame(width: 80, height: 40)
+                    .chartXAxis(.hidden).chartYAxis(.hidden)
                 }
-                .frame(width: 80, height: 40)
-                .chartXAxis(.hidden).chartYAxis(.hidden)
                 
-                Text(item.history.last?.price.toCompactString() ?? item.bidOpenPrice.toCompactString())
-                    .font(.subheadline).fontWeight(.semibold)
+                VStack(spacing: 4) {
+                    VStack {
+                        Text(item.history.last?.price.toCompactString() ?? item.bidOpenPrice.toCompactString())
+                            .font(.subheadline).fontWeight(.semibold)
+                            .padding(0)
+                    }
+                    
+                    Text("\(item.bidStatus.rawValue)")
+                        .font(.caption2)
+                        .bold()
+                        .frame(maxWidth: 60)
+                        .padding(.vertical, 2)
+                        .padding(.horizontal, 6)
+                        .foregroundStyle(.white)
+                        .background(
+                            item.bidStatus == BidStatus.open ? .green : .gray
+                        )
+                        .cornerRadius(6)
+                }
             }
-            Text("Ends: \(item.bidClosesAt.formatted(date: .long, time: .omitted))")
-                .font(.caption2).foregroundColor(.secondary)
         }
     }
     
-    // Move the prepareChartData logic here inside the component
     private func prepareChartData(for item: BidItemModel) -> [ChartData] {
         
-        // 1. Group the existing history as you did before
         let grouped = Dictionary(grouping: item.history) {
             Calendar.current.startOfDay(for: $0.createdAt)
         }
         
-        // 2. Find the start and end dates of your history
-        // If no history, return empty
         guard let firstDate = item.history.map({ $0.createdAt }).min(),
               let lastDate = item.history.map({ $0.createdAt }).max() else {
             return []
@@ -72,13 +87,10 @@ struct BiddingRowComponent: View {
         var allDays: [ChartData] = []
         var currentDay = start
         
-        // 3. Loop through every day from start to end
         while currentDay <= end {
-            // If we have data for this day, use the count. Otherwise, use 0.
             let count = grouped[currentDay]?.count ?? 0
             allDays.append(ChartData(date: currentDay, count: count))
             
-            // Advance to the next day
             if let nextDay = Calendar.current.date(byAdding: .day, value: 1, to: currentDay) {
                 currentDay = nextDay
             } else {
@@ -96,4 +108,9 @@ struct ChartData: Identifiable {
     let date: Date
     let count: Int
     
+}
+
+#Preview {
+    @Previewable @State var item = BidItemData.bidItems[0]
+    BiddingRowComponent(item: item)
 }

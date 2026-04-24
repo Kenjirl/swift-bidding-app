@@ -8,8 +8,6 @@
 import SwiftUI
 
 struct HistorySort: View {
-    // We use @Binding so that when the user clicks a button here,
-    // it updates the sortOrder in the parent View (CommonBiddingListView)
     @Binding var sortOrder: MyBidHistory.SortType
 
     var body: some View {
@@ -87,7 +85,6 @@ struct MyBidHistory: View {
                 
                 if (countBidHistory(history: history)) {
                     List {
-                        // 1. Loop through each sneaker
                         ForEach(filteredItems) { item in
                             ForEach(item.historyWithIncrement.reversed(), id: \.history.id) { bid in
                                 
@@ -96,7 +93,7 @@ struct MyBidHistory: View {
                                     VStack(alignment: .leading, spacing: 4) {
                                         
                                         Text(item.name)
-                                            .font(.subheadline) // 2. Changed from .caption to .headline
+                                            .font(.subheadline)
                                             .fontWeight(.bold)
                                         
                                         Text(bid.history.createdAt.toFormattedString())
@@ -141,6 +138,5 @@ struct MyBidHistory: View {
 }
 
 #Preview {
-    // ✅ Fix: Use .constant to provide a Binding in previews
     MyBidHistory(history: .constant(MockData().allHistory))
 }

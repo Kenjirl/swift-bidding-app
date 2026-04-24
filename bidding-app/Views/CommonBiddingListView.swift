@@ -8,8 +8,6 @@
 import SwiftUI
 
 struct SortMenu: View {
-    // We use @Binding so that when the user clicks a button here,
-    // it updates the sortOrder in the parent View (CommonBiddingListView)
     @Binding var sortOrder: CommonBiddingListView.SortType
 
     var body: some View {
@@ -82,4 +80,12 @@ struct CommonBiddingListView: View {
             }
         }
     }
+}
+
+#Preview {
+    @Previewable @State var items = BidItemData.bidItems
+    CommonBiddingListView(
+        title: "What",
+        items: $items
+    )
 }

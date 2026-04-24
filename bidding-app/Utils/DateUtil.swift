@@ -51,7 +51,7 @@ extension Date {
         let now = Date()
         let remaining = self.timeIntervalSince(now)
         
-        guard remaining > 0 else { return "Ended" }
+        guard remaining > 0 else { return BidStatus.close.rawValue }
         
         let days    = Int(remaining) / 86_400
         let hours   = (Int(remaining) % 86_400) / 3_600

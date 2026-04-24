@@ -22,11 +22,6 @@ struct BidItemDetailView: View {
     @State private var chartShowed = "Daily Bid Count"
     @State private var createBidSuccessAlert = false
     @State private var openCreateBidSheetError = false
-    
-    func countBidHistory(history: [BidHistoryModel]) -> Bool {
-        if (history.count == 0) { return false }
-        return true
-    }
 
     var body: some View {
         ScrollView {
@@ -68,7 +63,9 @@ struct BidItemDetailView: View {
                         }
                         .padding(.vertical, 4)
                         .padding(.horizontal, 16)
-                        .background(.green)
+                        .background(
+                            item.bidStatus == BidStatus.open ? .green : .gray
+                        )
                         .cornerRadius(6)
                         .foregroundStyle(.white)
                         .font(.caption)
@@ -97,6 +94,7 @@ struct BidItemDetailView: View {
                 
                 Text("\(item.name)")
                     .font(.title2)
+                    .multilineTextAlignment(.center)
                 
                 Text("\(item.description)")
                     .font(.caption)
@@ -114,7 +112,7 @@ struct BidItemDetailView: View {
             .padding()
 
             /// Chart
-            if (countBidHistory(history: item.history)) {
+            if (item.hasHistory) {
                 VStack {
                     HStack {
                         Menu {
@@ -147,16 +145,10 @@ struct BidItemDetailView: View {
                 HStack {
                     Text("Bid so far").bold()
                     Spacer()
-                    Button ("Place Bid") {
-                        guard item.bidder != user else {
-                            return openCreateBidSheetError = true
+                    if (item.bidStatus == BidStatus.open && item.bidder != user) {
+                        Button ("Place Bid") {
+                            showCreateBidSheet = true
                         }
-                        return showCreateBidSheet = true
-                    }
-                    .alert("Cannot Place Bid", isPresented: $openCreateBidSheetError) {
-                        Button("OK", role: .cancel) { }
-                    } message: {
-                        Text("You cannot place bid on your own item.")
                     }
                 }
                 .sheet(isPresented: $showCreateBidSheet) {
@@ -173,7 +165,7 @@ struct BidItemDetailView: View {
                     Text("Your bid has been successfully placed.")
                 }
                 
-                if (countBidHistory(history: item.history)) {
+                if (item.hasHistory) {
                     List {
                         ForEach(item.historyWithIncrement.reversed(), id: \.history.id) { bid in
                             BidHistoryRow(bid: bid.history, increment: bid.increment)

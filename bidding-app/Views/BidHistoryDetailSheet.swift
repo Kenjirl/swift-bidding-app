@@ -79,7 +79,7 @@ struct BidHistoryDetailSheet: View {
 
 #Preview {
     BidHistoryDetailSheet(
-        bid: BidItemData.bidItems[0].history[1],
-        highestBid: BidItemData.bidItems[0].history[14].price,
-        previousBid: BidItemData.bidItems[0].history[0].price)
+        bid: BidItemData.bidItems[1].history[1],
+        highestBid: BidItemData.bidItems[1].history[14].price,
+        previousBid: BidItemData.bidItems[1].history[0].price)
 }

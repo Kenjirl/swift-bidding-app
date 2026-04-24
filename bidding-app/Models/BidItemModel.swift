@@ -8,8 +8,9 @@
 import Foundation
 import UIKit
 
-enum BidStatus {
-    case open, close
+enum BidStatus: String {
+    case open  = "open"
+    case close = "ended"
 }
 
 struct BidItemModel: Identifiable {
@@ -25,6 +26,11 @@ struct BidItemModel: Identifiable {
     
     var bidStatus: BidStatus {
         return Date.now < bidClosesAt ? .open : .close
+    }
+    
+    var hasHistory: Bool {
+        if (history.count == 0) { return false }
+        return true
     }
     
     func findHighestBid() -> Decimal? {

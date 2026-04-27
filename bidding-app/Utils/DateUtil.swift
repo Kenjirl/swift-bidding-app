@@ -32,9 +32,9 @@ extension Date {
     static func daysAgo(_ days: Int, hour: Int = 0, minute: Int = 0, second: Int = 0) -> Date {
         var components = DateComponents()
         components.day = -days
-        components.hour = hour
-        components.minute = minute
-        components.second = second
+        components.hour = -hour
+        components.minute = -minute
+        components.second = -second
         return Calendar.current.date(byAdding: components, to: Date())!
     }
 

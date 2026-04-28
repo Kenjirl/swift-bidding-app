@@ -59,7 +59,7 @@ struct AddBidItemSheet: View {
                 }
                 
                 Section("Timeline") {
-                    DatePicker("Bid Closes At", selection: $closeDate)
+                    DatePicker("Bid Closes At", selection: $closeDate, in: Date.now...)
                 }
                 
                 Section("Add Image") {
